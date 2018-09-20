@@ -1,6 +1,12 @@
 (ns crow-cabbage.views
   (:require [re-frame.core :as re-frame]))
 
+(defn currency-format
+  "Formats number as USD currency"
+  [number]
+  ;; thanks Stack Overflow!
+  (.toLocaleString number js/undefined #js {:style "currency" :currency "USD"}))
+
 (defn catalog-item
   [{:keys [id name imageURL price bulkPricing] :as item}]
   [:div {:class "catalog-item"}
@@ -8,10 +14,10 @@
           :label name}]
    [:div {:class "details"}
     [:h3 {:class "name"} name]
-    [:p {:class "price"} (str "$" price)
+    [:p {:class "price"} (currency-format price)
      (when bulkPricing
        (str " or " (:amount bulkPricing)
-            " for $" (:totalPrice bulkPricing)))]]
+            " for " (currency-format (:totalPrice bulkPricing))))]]
    [:button {:type "button"
              :on-click #(re-frame/dispatch [:add-to-cart item])}
     "Add to Cart"]])
@@ -40,7 +46,7 @@
     "X"]
    [:div {:class "name"} (:name item)]
    [:div {:class "quantity"} (str quantity)]
-   [:div {:class "price"} total-price]])
+   [:div {:class "price"} (currency-format total-price)]])
 
 (defn cart
   []
@@ -49,7 +55,14 @@
      [:h2 "Cart"]
      (for [item @contents]
        (let [[id product] item]
-         ^{:key id} [cart-product id product]))]))
+         ^{:key id} [cart-product id product]))
+     [:div {:class "total"}
+      "Total: "
+      (currency-format
+       (reduce-kv (fn [total id product]
+                    (+ total (:total-price product)))
+                  0
+                  @contents))]]))
 
 (defn main
   []
