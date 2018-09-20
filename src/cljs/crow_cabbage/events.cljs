@@ -7,6 +7,24 @@
  (fn  [_ _]
    db/default-db))
 
+(defn price
+  "Returns cart price for a given item at given quantity, taking into
+   account special bulk pricing."
+  [item quantity]
+  (let [{:keys [amount totalPrice]} (:bulkPricing item)
+        price (:price item)]
+    (if (and amount (>= quantity amount))
+      (let [bulk-units (quot quantity amount)
+            reg-units (mod quantity amount)]
+        (+ (* reg-units price)
+           (* bulk-units totalPrice)))
+      (* quantity price))))
+
+(defn with-new-price
+  "Updates a product in a cart with the new total price."
+  [{:keys [item quantity] :as product}]
+  (assoc product :total-price (price item quantity)))
+
 (re-frame/reg-event-db
  :add-to-cart
  (fn [db [_ {:keys [id] :as item}]]
@@ -17,4 +35,6 @@
        ;; subscription on the catalog, but the straightforward thing
        ;; seems to be just dump the whole item in the cart for
        ;; rendering purposes
-       (assoc-in [:cart id :item] item))))
+       (assoc-in [:cart id :item] item)
+       (update-in [:cart id] with-new-price))))
+
