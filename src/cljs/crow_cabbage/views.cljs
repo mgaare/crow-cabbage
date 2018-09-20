@@ -22,3 +22,20 @@
     [:div {:class "catalog"}
      (for [item @items]
        ^{:key item} (catalog-item item))]))
+(defn cart
+  []
+  (let [contents (re-frame/subscribe [:cart])]
+    [:div {:class "cart"}
+     [:h2 "Cart"]
+     (for [product @contents]
+       (let [[id {:keys [quantity item]}] product]
+         ^{:key id}
+         [:div {:class "product"}
+          [:span {:class "name"} (:name item)]
+          [:span {:class "quantity"} (str quantity)]]))]))
+
+(defn main
+  []
+  [:div {:class "app"}
+   [catalog]
+   [cart]])

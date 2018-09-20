@@ -11,3 +11,8 @@
  :catalog
  (fn [db]
    (:catalog db)))
+
+(re-frame/reg-sub
+ :cart
+ (fn [db]
+   (:cart db)))

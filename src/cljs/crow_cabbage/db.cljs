@@ -22,4 +22,16 @@
               :name "Mini Gingerbread Donut"
               :imageURL "https://s3.amazonaws.com/pinchofyum/gingerbread-donuts-22.jpg"
               :price 0.50
-              :bulkPricing nil}]})
+              :bulkPricing nil}]
+   ;;; Here comes some fundamental choices... what datastructure to
+   ;;; choose for the cart? The options would seem to be:
+   ;; - map keyed by item id
+   ;; - vector
+   ;;; The map gives us easy associative lookups, so the remove from
+   ;;; cart, add item to cart while merging and updating quantity, and
+   ;;; changing the quantity of an item operations are
+   ;;; straightforward. The vector would require a lot of iteratation
+   ;;; over its contents to find the right thing, however it lets us
+   ;;; preserve the order that the user added things to cart. Ah who
+   ;;; cares about that? Map it is.
+   :cart {}})
