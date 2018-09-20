@@ -1,8 +1,7 @@
 (ns crow-cabbage.db)
 
 (def default-db
-  {:name "re-frame"
-   :catalog [{:id 1
+  {:catalog [{:id 1
               :name "Brownie"
               :imageURL "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHdr1eTXEMs68Dx-b_mZT0RpifEQ8so6A1unRsJlyJIPe0LUE2HQ"
               :price 2.00

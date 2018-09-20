@@ -22,9 +22,3 @@
     [:div {:class "catalog"}
      (for [item @items]
        ^{:key item} (catalog-item item))]))
-
-(defn main-panel []
-  (let [name (re-frame/subscribe [:name])]
-    (fn []
-      [:div "Hello from " @name]
-      [catalog])))
