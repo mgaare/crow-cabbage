@@ -38,3 +38,20 @@
        (assoc-in [:cart id :item] item)
        (update-in [:cart id] with-new-price))))
 
+(re-frame/reg-event-db
+ :delete-from-cart
+ (fn [db [_ id]]
+   (update db :cart dissoc id)))
+
+(re-frame/reg-event-db
+ :remove-one-from-cart
+ (fn [db [_ id]]
+   (let [cart-state (get-in db [:cart id])]
+     (cond (nil? cart-state)
+           db
+           (= 1 (:quantity cart-state))
+           (update db :cart dissoc id)
+           :else
+           (-> db
+               (update-in [:cart id :quantity] dec)
+               (update-in [:cart id] with-new-price))))))

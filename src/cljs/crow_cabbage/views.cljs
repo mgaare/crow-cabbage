@@ -24,8 +24,20 @@
        ^{:key item} [catalog-item item])]))
 
 (defn cart-product
-  [{:keys [item quantity total-price] :as product}]
+  [id {:keys [item quantity total-price] :as product}]
   [:div {:class "product"}
+   [:button {:class "add"
+             :type "button"
+             :on-click #(re-frame/dispatch [:add-to-cart item])}
+    "+"]
+   [:button {:class "remove"
+             :type "button"
+             :on-click #(re-frame/dispatch [:remove-one-from-cart id])}
+    "-"]
+   [:button {:class "delete"
+             :type "button"
+             :on-click #(re-frame/dispatch [:delete-from-cart id])}
+    "X"]
    [:div {:class "name"} (:name item)]
    [:div {:class "quantity"} (str quantity)]
    [:div {:class "price"} total-price]])
@@ -37,7 +49,7 @@
      [:h2 "Cart"]
      (for [item @contents]
        (let [[id product] item]
-         ^{:key id} [cart-product product]))]))
+         ^{:key id} [cart-product id product]))]))
 
 (defn main
   []
