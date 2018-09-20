@@ -1,3 +1,52 @@
 h1 {
   text-decoration: underline;
 }
+
+.catalog {
+    display: inline-block;
+    width: 45%;
+}
+
+.cart {
+    display: inline-block;
+    vertical-align: top;
+    width: 45%;
+}
+
+.catalog-item img {
+    display: inline-block;
+    max-width: 40%;
+}
+
+.catalog-item .details {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: top;
+}
+
+.cart .product .button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.cart .product .name {
+    display: inline-block;
+    width: 40%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.cart .product .quantity {
+    display: inline-block;
+    width: 20%;
+}
+
+.cart .product .price {
+    display: inline-block;
+    width: 20%;
+}
+
+.cart .total {
+    margin-top: 10px;
+    font-weight: bold;
+}

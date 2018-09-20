@@ -17,10 +17,10 @@
     [:p {:class "price"} (currency-format price)
      (when bulkPricing
        (str " or " (:amount bulkPricing)
-            " for " (currency-format (:totalPrice bulkPricing))))]]
-   [:button {:type "button"
-             :on-click #(re-frame/dispatch [:add-to-cart item])}
-    "Add to Cart"]])
+            " for " (currency-format (:totalPrice bulkPricing))))]
+    [:button {:type "button"
+              :on-click #(re-frame/dispatch [:add-to-cart item])}
+     "Add to Cart"]]])
 
 (defn catalog
   []
@@ -43,7 +43,7 @@
    [:button {:class "delete"
              :type "button"
              :on-click #(re-frame/dispatch [:delete-from-cart id])}
-    "X"]
+    "x"]
    [:div {:class "name"} (:name item)]
    [:div {:class "quantity"} (str quantity)]
    [:div {:class "price"} (currency-format total-price)]])
