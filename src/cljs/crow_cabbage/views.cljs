@@ -21,7 +21,8 @@
   (let [items (re-frame/subscribe [:catalog])]
     [:div {:class "catalog"}
      (for [item @items]
-       ^{:key item} (catalog-item item))]))
+       ^{:key item} [catalog-item item])]))
+
 (defn cart
   []
   (let [contents (re-frame/subscribe [:cart])]
